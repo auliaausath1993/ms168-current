@@ -1,0 +1,16 @@
+{
+  "name": "tokomobile_ionic",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*",
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
+  ],
+  "pro_id": "2e8ebccd",
+  "hooks": {},
+  "id": "2e8ebccd"
+}

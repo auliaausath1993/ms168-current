@@ -1,0 +1,70 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "com-sarriaroman-photoviewer": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-console": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-fcm-with-dependecy-updated": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-filepath": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-image-picker": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "ionic-plugin-keyboard": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "org.devgeeks.Canvas2ImagePlugin": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    }
+  },
+  "dependent_plugins": {
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    },
+    "cordova.plugins.diagnostic": {
+      "PACKAGE_NAME": "com.emarketbatam.appshop"
+    }
+  }
+}

@@ -1,0 +1,2562 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *"
+    />
+
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/swiper.min.css" rel="stylesheet" />
+
+    <!-- - IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+  -->
+
+    <!-- - ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="lib/ionic-native/dist/ionic.native.min.js"></script>
+
+    <!-- - cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- - your app's js -->
+    <script src="js/swiper.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/elastic.js"></script>
+
+    <!-- ionic image lazy load -->
+    <script src="lib/ionic-image-lazy-load/ionic-image-lazy-load.js"></script>
+
+    <!-- autocomplete search -->
+    <script src="lib/ion-autocomplete/dist/ion-autocomplete.js"></script>
+    <link
+      href="lib/ion-autocomplete/dist/ion-autocomplete.css"
+      rel="stylesheet"
+    />
+
+    <script src="lib/ionic-autocomplete/dist/ionic-autocomplete.bundle.min.js"></script>
+    <!-- filter -->
+    <script src="lib/angular-filter/dist/angular-filter.min.js"></script>
+    <script src="lib/ng-clipboard/clipboard.min.js"></script>
+    <script src="lib/ng-clipboard/ngclipboard.min.js"></script>
+  </head>
+  <body ng-app="starter">
+    <!-- - <ion-nav-bar class="bar bar-header bar-stable bar-calm">
+  </ion-nav-bar> -->
+    <ion-nav-view></ion-nav-view>
+
+    <!--  STARTUP / SPLASH -->
+    <script id="templates/startup.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="startupController">
+        <ion-content>
+          <div class="full">
+            <div class="">
+              <br><br><br>
+
+              <div class="row">
+                <div class="col col-100"><img class="img_center" src="img/logo.png"></div>
+              </div>
+
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  LOGIN -->
+    <script id="templates/login.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="loginController">
+        <ion-header class="bar warna_utama ">
+          <h1 class="title putih">{{ shop_name }}</h1>
+        </ion-header>
+        <ion-content overflow-scroll="true">
+          <div class="row">
+            <br><br><br>
+          </div>
+          <div class="row">
+            <div class="col col-100"><img class="" src="img/logo.png" style="width:100%;"></div>
+          </div>
+
+          <form ng-submit="login()">
+            <div class="list list-inset">
+              <label class="item item-input">
+                <i class="icon ion-person placeholder-icon"></i>
+                <input type="text" placeholder="Customer ID / Email" ng-model="postData.customer_id">
+              </label>
+              <label class="item item-input">
+                <i class="icon ion-key placeholder-icon"></i>
+                <input type="password" placeholder="Password" ng-model="postData.password">
+              </label>
+              <button type="submit" class="button button-block warna_utama">
+                Login
+              </button>
+            </div>
+          </form>
+          <a ng-click="register()" class="button button-block warna_utama" style="margin:10px;">
+            Register
+          </a>
+          <div class="text-center">
+            <a ng-click="forget()">Lupa Password ?</a>
+          </div>
+        </ion-content>
+        <div class="bar bar-footer warna_utama footer">
+          <div style="text-align:center;width:100%;">
+            Powered By © {{shop_name}}
+          </div>
+        </div>
+      </ion-view>
+    </script>
+
+    <!--  REGISTER -->
+    <script id="templates/register.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="registerController">
+        <ion-header class="bar warna_utama ">
+          <h1 class="title putih">{{ shop_name }}</h1>
+        </ion-header>
+        <ion-content class="has-header">
+          <div class="row">
+            <div class="col col-100"><img class="" src="img/logo.png" style="width:100%;"></div>
+          </div>
+
+          <form ng-submit="submit_register()">
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Nama
+                </div>
+                <label class="item item-input">
+                  <input type="text" ng-value="{{name}}" value="{{name}}" ng-model="postData.nama" placeholder="Nama">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Email
+                </div>
+                <label class="item item-input">
+                  <input type="text" ng-value="{{email}}" value="{{email}}" ng-model="postData.email" placeholder="Alamat Email">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Telepon
+                </div>
+                <label class="item item-input">
+                  <input type="text" ng-value="{{phone}}" value="{{phone}}" ng-model="postData.phone" placeholder="Telepon">
+                </label>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Password
+                </div>
+                <label class="item item-input">
+                  <input type="password" ng-model="postData.password">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Konfirmasi Password
+                </div>
+                <label class="item item-input">
+                  <input type="password" ng-model="postData.confirm_password">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <button class="button button-full btn_warna_utama">
+                  Register
+                </button>
+              </div>
+            </div>
+            <br><br>
+          </form>
+
+        </ion-content>
+        <div class="bar bar-footer warna_utama footer">
+          <div style="text-align:center;width:100%;">
+            Powered By © {{shop_name}}
+          </div>
+        </div>
+      </ion-view>
+    </script>
+
+    <script id="templates/activation.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="activationController">
+        <ion-header class="bar warna_utama ">
+          <h1 class="title putih">{{ shop_name }}</h1>
+        </ion-header>
+        <ion-content class="has-header">
+          <div class="padding">
+            <p>Masukan kode OTP yang dikirim ke email Anda. Cek juga spam pada email Anda.
+          </div>
+          <form ng-submit="checkOtp()">
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Kode OTP
+                </div>
+                <label class="item item-input">
+                  <input type="number" ng-model="postData.otp_code" placeholder="Kode OTP">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <button type="submit" class="button button-full btn_warna_utama" ng-disabled="!postData.otp_code">
+                  Cek Kode OTP
+                </button>
+                <button type="button" ng-click="resendOtp()" class="button button-full btn_warna_utama">
+                  Kirim Ulang Kode OTP
+                </button>
+              </div>
+            </div>
+            <br><br>
+          </form>
+
+        </ion-content>
+        <div class="bar bar-footer warna_utama footer">
+          <div style="text-align:center;width:100%;">
+            Powered By © {{shop_name}}
+          </div>
+        </div>
+      </ion-view>
+    </script>
+
+    <!-- FORGET -->
+    <script id="templates/forget.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="forgetController" >
+        <ion-header class="bar warna_utama ">
+          <h1 class="title putih">{{ shop_name }}</h1>
+        </ion-header>
+        <ion-content overflow-scroll="true" class="has-header">
+          <div class="row">
+            <br><br><br>
+          </div>
+          <div class="row">
+            <div class="col col-100"><img class="" src="img/logo.png" style="width:100%;"></div>
+          </div>
+
+          <form ng-submit="forget(email)">
+            <div class="list list-inset">
+              <div class="padding">
+                <label>Silahkan masukan email registrasi anda agar kami dapat mengirimkan email beserta link untuk merubah password anda</label>
+              </div>
+              <label class="item item-input">
+                <i class="icon ion-android-mail placeholder-icon"></i>
+                <input type="email" placeholder="Email" ng-model="email">
+              </label>
+              <button type="submit" class="button button-block warna_utama">
+                Kirim
+              </button>
+            </div>
+          </form>
+        </ion-content>
+        <div class="bar bar-footer warna_utama footer">
+          <div style="text-align:center;width:100%;">
+            Powered By © {{shop_name}}
+          </div>
+        </div>
+      </ion-view>
+    </script>
+
+    <!--  MENU -->
+    <script id="templates/menu.html" type="text/ng-template">
+      <ion-side-menus ng-controller="menuController">
+
+        <ion-side-menu-content drag-content="false">
+          <ion-nav-bar class="bar warna_utama" align-title="center">
+            <ion-nav-back-button class="font-color-utama">
+            </ion-nav-back-button>
+
+            <ion-nav-buttons side="left">
+              <button class="button button-icon ion-navicon icon_putih" menu-toggle="left">
+              </button>
+            </ion-nav-buttons>
+            <ion-nav-title>
+              <div class="bar bar-header item-input-inset" style="padding: 0px;">
+                <form ng-submit="cari_produk()" style="width: 100%" class="form-search cust-placeholder">
+                  <label class="item-input-wrapper textbox-search">
+                    <i class="icon ion-android-search placeholder-icon"></i>
+                    <input type="text" id="search_product" class="search" placeholder="Cari Produk" ng-model="postData.keyword">
+                  </label>
+                </form>
+              </div>
+            </ion-nav-title>
+
+            <ion-nav-buttons side="right">
+              <a class="button button-icon icon ion-android-cart custom_icon_home_header" ng-href="#/event/listpesananbarang"></a>
+              <span class="badge icon_badge">{{total_cart}}</span>
+              <a ng-if="customer_id" class="button button-icon icon ion-chatbox-working custom_icon_home_header" ng-href="#/event/chatting"></a>
+              <span ng-if="customer_id" class="badge badge-chat">{{total_chat}}</span>
+            </ion-nav-buttons>
+          </ion-nav-bar>
+
+          <!-- <ion-nav-view name="menuContent"></ion-nav-view> -->
+
+          <ion-tabs class="tabs-bottom tabs-stable tabs-icon-top">
+
+            <ion-tab title="Home" icon="ion-home" href="#/event/dashboard" ng-click="toDashboard()">
+              <ion-nav-view name="dashboard-tab"></ion-nav-view>
+            </ion-tab>
+
+            <ion-tab title="Katalog" icon="ion-navicon" href="#/event/kategori">
+              <ion-nav-view name="katalog-tab"></ion-nav-view>
+            </ion-tab>
+
+            <ion-tab title="My Booking" icon="ion-social-buffer" href="#/event/listdatapesanan" ng-click="toDataPesanan()">
+              <ion-nav-view name="pesanan-tab"></ion-nav-view>
+            </ion-tab>
+
+            <ion-tab badge="total_message" badge-style="badge badge-my-info" title="My Info" icon="ion-information-circled" ng-click="toInbox()">
+              <ion-nav-view name="info-tab"></ion-nav-view>
+            </ion-tab>
+
+            <ion-tab title="Profil" icon="ion-android-person" ng-click="toProfil()">
+              <ion-nav-view name="profil-tab"></ion-nav-view>
+            </ion-tab>
+
+          </ion-tabs>
+
+        </ion-side-menu-content>
+
+        <ion-side-menu side="left">
+          <ion-header-bar class="bar warna_utama ">
+            <h1 class="title putih">{{shop_name}}</h1>
+          </ion-header-bar>
+          <ion-content>
+            <ul class="list">
+              <a href="{{ item.target }}" class="item" menu-close ng-repeat="item in sidemenu" ng-click="{{ item.click }}">
+                <i class="{{ item.icon }}"></i>
+                {{ item.name }}
+                <span class="badge warna_utama" ng-show="{{ item.badge }}">{{ item.id == 11 ? total_chat_product : total_chat }}</span>
+              </a>
+            </ul>
+          </ion-content>
+        </ion-side-menu>
+
+      </ion-side-menus>
+    </script>
+
+    <script id="templates/dashboard.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="katalogController" cache-view="{{cache_view}}">
+        <div class="to-top" ng-click="toTop()" id="to-top-dashboard" style="display: none">
+          <i class="icon ion-android-arrow-up"></i>
+        </div>
+        <div class="to-top" ng-click="toWhatsapp()"  style="display: flex; background-color: #33cd5f">
+          <i class="icon ion-social-whatsapp-outline"></i>
+        </div>
+        <ion-content class="bg_abuabu" overflow-scroll="true" lazy-scroll id="ion-scroll">
+          <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+          <div class="row" style="padding: 0">
+            <div class="col col-100" style="padding: 0">
+              <ion-slide-box show-pager="true" on-slide-changed="onSlideChanged(index)" disable-scroll="false" auto-play="true" does-continue="true">
+                <ion-slide ng-repeat="image in list_image">
+                  <div class="slide_box" ng-click="">
+                    <img class="slide_img_banner full-image" image-lazy-loader="android" ng-src="{{image.image}}" />
+                  </div>
+                </ion-slide>
+              </ion-slide-box>
+            </div>
+          </div>
+          <ion-scroll direction="x" scrollbar-x="false" ng-if="tags.length">
+            <div class="row header_tabs">
+              <div class="col" ng-repeat="tag in tags" ng-class="{ 'border-tab' : tab == {{ $index }} }" ng-click="setTab($index)">
+                <center>{{ tag.name }}</center>
+              </div>
+            </div>
+          </ion-scroll>
+          <div ng-if="tab == 0" ng-include="'templates/allProduct.html'"></div>
+          <div class="katalog_container" ng-if="tab == $index" ng-repeat="tag in tags">
+            <div class="katalog_item" ng-repeat="data in tag.products" ng-click="detailBarang(data.product_id)">
+              <div class="list card katalog_scroll">
+                <div class="item item-image div_img">
+                  <div ng-class="tag.id % 2 ? 'ribbon-odd' : 'ribbon-even'" class="ribbon ribbon-best-seller">
+                    <span>{{ tags[tab].name }}</span>
+                  </div>
+                  <div ng-if="data.discount" class="discount">
+                    Diskon
+                  </div>
+                  <img ng-src="{{data.img_medium}}" class="katalog_img">
+                </div>
+
+                <div class="katalog_div">
+                  <p class="katalog_desc">
+                    {{data.name_item}}
+                  </p>
+                  <p class="katalog_price" >
+                    {{data.harga | currency:"Rp.":0}}
+                    <span class="old_price" ng-show="data.harga_lama != 0" >{{data.harga_lama | currency:"Rp.":0}}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- TABS ALL PRODUCTS -->
+    <script id="templates/allProduct.html" type="text/ng-template">
+        <div class="katalog_container ">
+          <div class="katalog_item" ng-repeat="data in katalog" ng-click="detailBarang(data.product_id)">
+            <div class="list card katalog_scroll">
+              <div class="item item-image div_img">
+                <div class="ribbon" ng-if="data.tag" ng-class="data.tag.tag_id % 2 ? 'ribbon-odd' : 'ribbon-even'">
+                  <span>{{ data.tag.name }}</span>
+                </div>
+                <div ng-if="data.discount" class="discount">
+                  Diskon
+                </div>
+                <img ng-src="{{data.img_medium}}" class="katalog_img">
+              </div>
+
+              <div class="katalog_div">
+                <p class="katalog_desc">
+                  {{data.name_item}}
+                </p>
+                <p class="katalog_price" >
+                  {{data.harga | currency:"Rp.":0}}
+                  <span class="old_price" ng-show="data.harga_lama!=0" >{{data.harga_lama | currency:"Rp.":0}}</span>
+                </p>
+                <!-- <p ng-class="{'katalog_type_po':data.product_type == 'PO','katalog_type':data.product_type == 'Ready Stock'}" class="">
+                  {{data.product_type}} ({{data.stok_total}})
+                </p> -->
+              </div>
+            </div>
+          </div>
+          <!-- ===== -->
+        </div>
+        <div>
+          <ion-infinite-scroll ng-if="moredata" class="load_more_data"
+          on-infinite="loadMoreData()"
+          immediate-check="false"
+          distance="10%">
+        </ion-infinite-scroll>
+      </div>
+    </script>
+
+    <!-- TABS BEST SELLER -->
+    <script id="templates/bestSeller.html" type="text/ng-template">
+      <div class="katalog_container ">
+        <!-- -katalog item-->
+        <div class="katalog_item" ng-repeat="data in katalog_best_seller" ng-click="detailBarang({{data.product_id}})">
+          <div class="list card katalog_scroll">
+            <div class="item item-image div_img">
+              <div class="ribbon ribbon-best-seller"><span>Best Seller</span></div>
+              <img ng-src="{{data.img_medium}}" class="katalog_img">
+            </div>
+
+            <div class="katalog_div">
+              <p class="katalog_desc">
+                {{data.name_item}}
+              </p>
+              <p class="katalog_price" >
+                {{data.harga | currency:"Rp.":0}}
+                <span class="old_price" ng-show="data.harga_lama != 0" >{{data.harga_lama | currency:"Rp.":0}}</span>
+              </p>
+              <!-- <p ng-class="{'katalog_type_po':data.product_type == 'PO','katalog_type':data.product_type == 'Ready Stock'}" class="">
+                {{data.product_type}} ({{data.stok_total}})
+              </p> -->
+            </div>
+          </div>
+        </div>
+        <!-- ===== -->
+      </div>
+    </script>
+
+    <!-- TABS PROMO -->
+    <script id="templates/promo.html" type="text/ng-template">
+      <div class="katalog_container ">
+        <!-- -katalog item-->
+        <div class="katalog_item" ng-repeat="data in katalog_promo" ng-click="detailBarang({{data.product_id}})">
+          <div class="list card katalog_scroll">
+            <div class="item item-image div_img">
+              <div class="ribbon ribbon-promo"><span>Promo</span></div>
+              <img ng-src="{{data.img_medium}}" class="katalog_img">
+            </div>
+
+            <div class="katalog_div">
+              <p class="katalog_desc">
+                {{data.name_item}}
+              </p>
+              <p class="katalog_price" >
+                {{data.harga | currency:"Rp.":0}}
+                <span class="old_price" ng-show="data.harga_lama!=0" >{{data.harga_lama | currency:"Rp.":0}}</span>
+              </p>
+              <!-- <p ng-class="{'katalog_type_po':data.product_type == 'PO','katalog_type':data.product_type == 'Ready Stock'}" class="">
+                {{data.product_type}} ({{data.stok_total}})
+              </p> -->
+            </div>
+          </div>
+        </div>
+        <!-- ===== -->
+      </div>
+    </script>
+
+    <!--  DASHBOARD PER CATEGORY -->
+    <script id="templates/dashboardCategory.html" type="text/ng-template">
+        <ion-view view-title="" ng-controller="katalogCategoryController" cache-view="true">
+          <!-- <div class="bar bar-subheader" style="height:50px;">
+            <form ng-submit="search_product()">
+              <div class="bar bar-header item-input-inset">
+                <label class="item-input-wrapper">
+
+                  <input type="search" placeholder="Search" ng-model="keyword">
+                  <i class="icon ion-ios-search placeholder-icon"></i>
+                </label>
+              </div>
+            </form>
+          </div> -->
+          <div class="to-top" ng-click="toTop()" id="to-top-category" style="display: none">
+            <i class="icon ion-android-arrow-up"></i>
+          </div>
+          <ion-content class="bg_abuabu" id="ion-scroll-category">
+            <!--<ion-refresher on-refresh="doRefresh()">
+            </ion-refresher>-->
+            <div class="katalog_container ">
+              <!-- -katalog item-->
+              <div class="katalog_item" ng-repeat="data in katalog" ng-click="detailBarang({{data.product_id}})">
+                <div class="list card katalog_scroll">
+                  <div class="item item-image div_img">
+                    <div class="ribbon" ng-if="data.tag" ng-class="data.tag.tag_id % 2 ? 'ribbon-odd' : 'ribbon-even'">
+                      <span>{{ data.tag.name }}</span>
+                    </div>
+                    <div ng-if="data.discount" class="discount">
+                      Diskon
+                    </div>
+                    <img ng-src="{{data.img_medium}}" class="katalog_img">
+                  </div>
+                  <div class="katalog_div">
+                    <p class="katalog_desc">
+                      {{data.name_item}}
+                    </p>
+                    <p class="katalog_price" >
+                      {{data.harga | currency:"Rp.":0}}<span class="old_price" ng-show="data.harga_lama!=0" >{{data.harga_lama | currency:"Rp.":0}} </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- - --------- -->
+            </div>
+            <div>
+              <ion-infinite-scroll class="load_more_data"
+              on-infinite="loadMoreData()"
+              immediate-check="false"
+              distance="1%">
+            </ion-infinite-scroll>
+          </div>
+        </ion-content>
+        <!--<ion-footer-bar>
+          <button class="button button-full warna_utama" ng-click="loadMoreData()">
+            Full Width Block Button
+          </button>
+        </ion-footer-bar>-->
+      </ion-view>
+    </script>
+
+    <!--  DASHBOARD SEARCH -->
+    <script id="templates/dashboardSearch.html" type="text/ng-template">
+        <ion-view view-title="" ng-controller="katalogSearchController" cache-view="true">
+          <div class="to-top" ng-click="toTop()" id="to-top-search" style="display: none">
+            <i class="icon ion-android-arrow-up"></i>
+          </div>
+          <ion-content class="bg_abuabu" id="ion-scroll-search">
+            <div class="katalog_container ">
+              <div class="label-search" ng-if="status == 'Success'">
+                <span>Hasil Pencarian <b>"{{keyword}}"</b></span>
+              </div>
+              <!-- -katalog item-->
+              <div class="katalog_item" ng-repeat="data in katalog" ng-click="detailBarang({{data.product_id}})">
+                <div class="list card katalog_scroll">
+                  <div class="item item-image div_img">
+                    <div class="ribbon" ng-if="data.tag" ng-class="data.tag.tag_id % 2 ? 'ribbon-odd' : 'ribbon-even'">
+                      <span>{{ data.tag.name }}</span>
+                    </div>
+                    <div ng-if="data.discount" class="discount">
+                      Diskon
+                    </div>
+                    <img ng-src="{{data.img_medium}}" class="katalog_img">
+                  </div>
+                  <div class="katalog_div">
+                    <p class="katalog_desc">
+                      {{data.name_item}}
+                    </p>
+                    <p class="katalog_price" >
+                      {{data.harga | currency:"Rp.":0}} <span class="old_price" ng-show="data.harga_lama!=0" >{{data.harga_lama | currency:"Rp.":0}} </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- - --------- -->
+            </div>
+            <div>
+              <ion-infinite-scroll class="load_more_data"
+              on-infinite="loadMoreData()"
+              immediate-check="false"
+              distance="1%">
+            </ion-infinite-scroll>
+          </div>
+        </ion-content>
+        <!--<ion-footer-bar>
+          <button class="button button-full warna_utama" ng-click="loadMoreData()">
+            Full Width Block Button
+          </button>
+        </ion-footer-bar>-->
+      </ion-view>
+    </script>
+
+    <!--  KATALOG PRE ORDER -->
+    <script id="templates/katalogPreOrder.html" type="text/ng-template">
+        <ion-view view-title="" ng-controller="katalogPreOrderController" cache-view="false">
+          <div class="to-top" ng-click="toTop()" id="to-top-po" style="display: none">
+            <i class="icon ion-android-arrow-up"></i>
+          </div>
+          <ion-content class="bg_abuabu" id="ion-scroll-po">
+            <!--<ion-refresher on-refresh="doRefresh()">
+            </ion-refresher>-->
+            <div class="katalog_container ">
+              <!-- -katalog item-->
+              <div class="katalog_item" ng-repeat="data in katalog" ng-click="detailBarang({{data.product_id}})">
+                <div class="list card katalog_scroll">
+                  <div class="item item-image div_img">
+                    <div class="ribbon" ng-if="data.tag" ng-class="data.tag.tag_id % 2 ? 'ribbon-odd' : 'ribbon-even'">
+                      <span>{{ data.tag.name }}</span>
+                    </div>
+                    <img ng-src="{{data.img_medium}}" class="katalog_img">
+                  </div>
+                  <div class="katalog_div">
+                    <p class="katalog_desc">
+                      {{data.name_item}}
+                    </p>
+                    <p class="katalog_price" >
+                      {{data.harga | currency:"Rp.":0}}<span class="old_price" ng-show="data.harga_lama!=0" >{{data.harga_lama | currency:"Rp.":0}} </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- - --------- -->
+            </div>
+            <div>
+              <ion-infinite-scroll class="load_more_data"
+              on-infinite="loadMoreData()"
+              immediate-check="false"
+              distance="1%">
+            </ion-infinite-scroll>
+          </div>
+        </ion-content>
+        <!--<ion-footer-bar>
+          <button class="button button-full warna_utama" ng-click="loadMoreData()">
+            Full Width Block Button
+          </button>
+        </ion-footer-bar>-->
+      </ion-view>
+    </script>
+
+    <!--  DETAIL BARANG -->
+    <script id="templates/detailbarang.html" type="text/ng-template">
+      <ion-view view-title="" cache-view="false">
+        <ion-content class="bg_abuabu">
+          <form ng-submit="submit_order()">
+            <input type="hidden" ng-value="{{product_id}}" ng-model="postDataOrder.product_id">
+
+            <div class="row">
+              <div class="col col-100" style="position: relative;">
+                <div ng-if="discount" class="discount">
+                  Diskon
+                </div>
+                <ion-slide-box show-pager="true" disable-scroll="false" on-slide-changed="changeSlider(index)" active-slide="currentIndex" disable-scroll="false">
+                  <ion-slide ng-if="video">
+                    <div ng-class="{'slide_box': slideboxStyle === true}">
+                      <video controls style="width: 100%; height: 250px" id="video-product">
+                        <source ng-src="{{ video }}" type="{{ 'video/' + video_type }}">
+                      </video>
+                    </div>
+                  </ion-slide>
+                  <ion-slide ng-repeat="image in list_image">
+                    <div ng-class="{'slide_box': slideboxStyle === true}">
+                      <img class="slide_img full-image" image-lazy-loader="android" ng-src="{{image.url}}" ng-click="fullImage($index)" onerror="this.src='img/logo.png'"/>
+                    </div>
+                   </ion-slide>
+                </ion-slide-box>
+                <div class="icon-img-video" ng-if="video">
+                  <div ng-class="{'active': slideBoxIndex === 0}">
+                    <span ng-click="changeSlider(0)">Video</span>
+                  </div>
+                  <div ng-class="{'active': slideBoxIndex > 0}">
+                    <span ng-click="changeSlider(1)">Gambar</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row product_name">
+              <div class="col judul_produk">
+                <p class="detail_nama">{{product_name}}</p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <a ng-click="share()" class="button button-small button-block warna_utama"><i class="ion-android-share-alt"></i> Bagikan</a>
+              </div>
+              <div class="col">
+                <a ng-click="chatProduct()" class="button button-small button-block warna_utama"><i class="ion-chatbubbles"></i> Chat Produk</a>
+              </div>
+            </div>
+
+            <div class="row header">
+              <div class="col border-tab">
+                <center><b>Deskripsi</b></center>
+              </div>
+            </div>
+            <div class="row detail_desc">
+              <a class="ion-ios-copy-outline copy-clipboard" ngclipboard data-clipboard-target="#keterangan" ngclipboard-success="successCopy(e);"></a>
+              <textarea class="textarea-auto col-90" id="keterangan" readonly msd-elastic ng-model="product_keterangan" ></textarea>
+            </div>
+
+            <div class="row header">
+              <div class="col header-variant">
+                <center><b>Variant</b></center>
+              </div>
+            </div>
+            <div class="row detail_desc" style="padding: 0px;">
+              <table border="1" class="table_variant">
+                <thead>
+                  <tr class="header_variant">
+                    <td>Variant</td>
+                    <td>Harga</td>
+                    <td>Qty</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="(i, variant) in list_variant track by $index">
+                    <td>{{variant.variant_name}} <span ng-if="view_stock == 1 || variant.stock == 'HABIS' || variant.stock == 'Stok Limited'">({{variant.stock}})</span></td>
+                    <td>{{product_harga | currency:"Rp.":0 }}</td>
+                    <td>
+                      <input type="number" placeholder="qty" ng-init="postData.qty[i]=''" ng-model='postData.qty[i]' id="qty_{{$index}}" name="qty[]" class="txt_qty" value="" autocomplete="off">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div ng-if="harga_grosir != null">
+              <div class="row header">
+                <div class="col header-grosir">
+                  <center><b>Harga Grosir</b></center>
+                </div>
+              </div>
+              <div class="row detail_desc" style="padding: 0px;">
+                <table class="table_variant">
+                  <tr ng-repeat="data in harga_grosir">
+                    <td>{{ data.qty }}</td>
+                    <td><b>{{ data.harga | currency:"Rp.":0 }}</b></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div class="row header">
+              <div class="col header-catatan">
+                <center><b>Catatan</b></center>
+              </div>
+            </div>
+            <div class="row detail_desc">
+              <textarea rows="3" autogrow id="note" style="width: 100%; resize: none;box-sizing: content-box;" placeholder="Silahkan isi pilihan anda (1 atau 2) : klik..&#10;1. Kirim sesuai jadwal &#10;2. Kirim segera Gosend (biaya 10rb)"></textarea>
+            </div>
+
+          </ion-content>
+          <div class="row">
+            <div class="col col-50">
+              <button type="submit" class="button button-full btn_warna_utama">
+                Order
+              </button>
+            </div>
+            <div class="col col-50">
+              <a ng-click="actionSaveImage()" class="button button-full btn_warna_utama">
+                Save Image
+              </a>
+            </div>
+          </div>
+        </form>
+      </ion-view>
+    </script>
+
+    <script id="templates/modalFullImage.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar style="background-color: #000; background-image: none">
+          <div class="buttons">
+            <button type="button" style="color: #fff !important" ng-click="modal.hide()" class="button button-icon icon ion-reply"></button>
+          </div>
+        </ion-header-bar>
+        <ion-content scroll="false" style="background-color: #000; top: 0 !important;">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide" ng-repeat="image in list_image">
+                <div class="swiper-zoom-container">
+                  <img ng-src="{{ image.url }}">
+                </div>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+
+    <!--  LIST PESANAN BARANG-->
+    <script id="templates/listpesananbarang.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="listpesananbarangController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">List Pesanan Barang</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <img class="img_center" src="img/logo.png" style="width:100%;margin:8px 0px;">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_nama">
+              {{ customer_name + ' (Cust ID : ' + customer_id }} )
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_summary">
+              <label class="pesanan_text row">
+                <div class="col col-40">Total Order</div>
+                <div class="col col-60"> : Rp.{{total_amount}}</div>
+              </label>
+              <label class="pesanan_text row">
+                <div class="col col-40">Total QTY</div>
+                <div class="col col-60"> : {{total_qty}}</div>
+              </label>
+              <label class="pesanan_text row">
+                <div class="col col-40">Total Berat</div>
+                <div class="col col-60"> : {{total_weight}} Kg</div>
+              </label>
+            </div>
+          </div>
+          <ul class="list">
+            <li class="item header-mybooking">
+              <div class="row">
+                <div class="col col-25 col-offset-10 text-center">
+                  <p>Date</p>
+                </div>
+                <div class="col col-25 text-center">
+                  <p>Product</p>
+                </div>
+                <div class="col col-15 text-center">
+                  <p>Qty</p>
+                </div>
+                <div class="col col-30 text-center">
+                  <p>Exp</p>
+                </div>
+              </div>
+            </li>
+            <li class="item" ng-repeat="item in list_order" style="padding: 0px">
+              <div class="row">
+                <div class="col col-10">
+                  <ion-checkbox class="checkbox_listorder" ng-value="{{item.order_item_id}}" ng-click="setCheckedOrder($index, item.order_item_id, item.prod_name, item.variant, item.qty, item.weight, item.price, item.subtotal)" ng-model="checkItems[$index]" ng-disabled="isPreOrder">
+                  </ion-checkbox>
+                </div>
+                <div class="col col-25">
+                  <p>{{ item.order_date }}</p>
+                  <p>{{ item.order_time }}</p>
+                </div>
+                <div class="col col-25 item-text-wrap">
+                  <p>
+                    <a href="javascript:void(0);" style="text-decoration: none" ng-click="showModal(item.image)">
+                      {{ item.prod_name }}
+                    </a>
+                  </p>
+                  <p>{{ item.variant }}</p>
+                </div>
+                <div class="col col-15 text-center">
+                  <div class="cart-qty">
+                    <p>{{ item.qty + '/' + item.max }}</p>
+                    <i class="icon ion-chevron-up" ng-click="actionQty($index, 'plus', item.order_item_id)"></i>
+                    <i class="icon ion-chevron-down" ng-click="actionQty($index, 'minus', item.order_item_id)"></i>
+                  </div>
+                </div>
+                <div class="col col-30">
+                  <p>{{ item.due_date }}</p>
+                  <p>{{ item.due_time }}</p>
+                </div>
+              </div>
+              <div class="row" ng-if="item.notes">
+                <p class="item-text-wrap"><b>Notes: {{ item.notes }}</b></p>
+              </div>
+            </li>
+          </ul>
+          <div class="row">
+            <div class="col col-100">
+              <button ng-if="fitur_rekap == 'ON'" class="button button-full btn_warna_utama" ng-click="rekap()">
+                Rekap / COD
+              </button>
+              <button class="button button-full btn_warna_utama" ng-click="dropship()">
+                Dropship
+              </button>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="templates/resi.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="resiController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Resi Pengiriman</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <ul class="list">
+            <li class="item header-mybooking">
+              <div class="row">
+                <div class="col col-33 text-center">
+                  <p>Date</p>
+                </div>
+                <div class="col col-33 text-center">
+                  <p>Transaksi</p>
+                </div>
+                <div class="col col-33 text-center">
+                  <p>No. Resi</p>
+                </div>
+              </div>
+            </li>
+            <li class="item" ng-repeat="item in resi" style="padding: 0px; white-space: normal;">
+              <div class="row">
+                <div class="col col-33">
+                  <p>{{ item.order_date }}</p>
+                  <p>{{ item.order_time }}</p>
+                </div>
+                <div class="col col-33">
+                  <p><b>#{{ item.id }}</b></p>
+                  <p><b>{{ item.total }}</b></p>
+                </div>
+                <div class="col col-33 item-text-wrap">
+                  <p ng-if="item.resi">{{ item.resi }} <a ngclipboard data-clipboard-text="{{ item.resi }}" ngclipboard-success="successCopy(e);">Salin</a></p>
+                  <p ng-if="!item.resi">No. Resi Belum Tersedia</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ion-infinite-scroll ng-if="moredata" on-infinite="loadMoreData()" immediate-check="false" distance="1%"></ion-infinite-scroll>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  REKAP -->
+    <script id="templates/rekap.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="rekapController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Rekap Pesanan</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <img class="img_center" src="img/logo.png" style="width:100%;margin:8px 0px;">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_nama">
+              {{customer_name}} (Cust ID : {{customer_id}} )
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_summary">
+              <label class="pesanan_text" ng-if="postData.usePoint">Subtotal : Rp.{{total_amount}}</label>
+              <label class="pesanan_text" ng-if="postData.usePoint">Potongan Point : Rp.{{potongan_point}} (1 Point = Rp. {{ kurs_point }})</label>
+              <label class="pesanan_text">Total Order : Rp.{{total_all}}</label>
+              <label class="pesanan_text">Total QTY : {{total_qty}}</label>
+              <label class="pesanan_text">Total Weight : {{total_weight}} Kg</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_summary">
+              <ul class="list">
+                <li class="item" ng-repeat="item in checkedOrder">
+                  <label class="label_list_pesanan">{{item.name}} - {{item.variant}} - ({{item.qty}})</label>
+                </li>
+              </ul>
+              <div class="list list-inset">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Catatan</span>
+                  <input type="text" placeholder="Catatan" ng-model="postData.notes">
+                </label>
+              </div>
+            </div>
+          </div>
+          <div style="margin: 10px 0" ng-if="point_reward_status === 'on'">
+            <ion-checkbox ng-click="usePointChange()">Gunakan Point</ion-checkbox>
+            <label class="item item-input" ng-if="postData.usePoint">
+              <input type="number" id="point" max="{{ customer_point }}" ng-change="pointChanged(postData.point)" ng-model="postData.point" placeholder="0">
+            </label>
+            <small>Point Anda {{ customer_point }} Point</small>
+          </div>
+          <div class="row">
+            <div class="col col-100">
+              <button class="button button-full btn_warna_utama" ng-click="rekap()">
+                Kirim
+              </button>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- KIRIM ALAMAT SENDIRI -->
+    <script id="templates/dropship1.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="kirimAlamatSendiriController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Dropship</h2>
+        </div>
+        <ion-content>
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <img class="img_center" src="img/logo.png" style="width:100%;margin:8px 0px;">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_nama">
+              {{customer_name}} (Cust ID : {{customer_id}})
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col col-100 pesanan_summary">
+              <ul class="list">
+                <li class="item" ng-repeat="item in checkedOrder">
+                  <label class="label_list_pesanan">{{item.name}} - {{item.variant}} - ({{item.qty}})</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <form ng-submit="process_dropship1()">
+            <div class="list list-inset" style="margin-top: 0px;">
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Dari</span>
+                <input type="text" value="{{dari}}" ng-model="postData.dari">
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Kepada</span>
+                <input type="text" value="{{kepada}}" ng-model="postData.kepada">
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Alamat</span>
+                <textarea ng-model="postData.alamat">{{alamat}}</textarea>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Provinsi</span>
+                <select ng-model="postData.provinsi">
+                  <option ng-repeat="data in arr_prov" value="{{data.provinsi_id}}" selected>{{data.provinsi}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Kota</span>
+                <select ng-model="postData.kota">
+                  <option ng-repeat="data in arr_kota" value="{{data.kota_id}}" selected>{{data.kota}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Kecamatan</span>
+                <select ng-model="postData.kecamatan">
+                  <option ng-repeat="data in arr_kecamatan" value="{{data.kecamatan_id}}" selected>{{data.kecamatan}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Ekspedisi</span>
+                <select ng-model="postData.ekspedisi" ng-change="getTarif(postData.ekspedisi)">
+                  <option value="">-Pilih Ekspedisi-</option>
+                  <option ng-repeat="data in arr_ekspedisi" value="{{data.code}}">{{data.code | uppercase}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Tarif</span>
+                <select ng-model="postData.tarif" ng-change="setOngkir(postData.tarif)">
+                  <option value="">-Pilih Tarif-</option>
+                  <option ng-repeat="data in listTarif" value="{{data.cost[0].value}}#{{data.service}}">{{data.service}} - {{data.cost[0].value}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Kodepos</span>
+                <input type="text" placeholder="" ng-value="{{kodepos}}" value="{{kodepos}}" data-ng-model="postData.kodepos">
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Telepon Penerima</span>
+                <input type="text" placeholder="" ng-value="{{telepon}}" value="{{telepon}}" data-ng-model="postData.telepon">
+              </label>
+              <div class="col col-100 pesanan_summary">
+                <label class="pesanan_text">Subtotal : Rp.{{total_amount}}</label>
+                <label class="pesanan_text">Ongkir : Rp.{{ongkir}}</label>
+                <label class="pesanan_text">Total : Rp.{{total_all}}</label>
+                <label class="pesanan_text">Total QTY : {{total_qty}} pcs ({{total_weight}} Kg)</label>
+              </div>
+              <button class="button button-full btn_warna_utama">
+                Kirim
+              </button>
+            </div>
+          </form>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="templates/dropship.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="dropshipController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Dropship</h2>
+        </div>
+        <ion-content>
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <img class="img_center" src="img/logo.png" style="width:100%;margin:8px 0px;">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_nama">
+              {{customer_name}} (Cust ID : {{customer_id}})
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col col-100 pesanan_summary">
+              <ul class="list">
+                <li class="item" ng-repeat="item in checkedOrder">
+                  <label class="label_list_pesanan">{{item.name}} - {{item.variant}} - ({{item.qty}})</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <form ng-submit="process_dropship()">
+            <div class="list list-inset" style="margin-top: 0px;">
+              <label class="item">
+                <span class="input-label">Alamat Pengiriman</span>
+                <div class="text-center" ng-if="addresses.length === 0">
+                  <p>Tidak Ada Alamat Pengiriman</p>
+                  <button type="button" ng-click="toAddAddress()" class="button btn_warna_utama button-small" >Tambah Alamat</button>
+                </div>
+                <div ng-if="addresses[address_index]">
+                  <p>Penerima: {{ addresses[address_index].recipient_name + ' - ' + addresses[address_index].recipient_phone }}</p>
+                  <p>{{ addresses[address_index].address }}</p>
+                  <p>{{ addresses[address_index].subdistrict_name + ' - ' + addresses[address_index].type + ' '  + addresses[address_index].city_name }}</p>
+                  <p>{{ addresses[address_index].province }}</p>
+                  <p>{{ 'Kode POS ' + addresses[address_index].postal_code }}</p>
+                  <p>{{ 'Pengirim ' + addresses[address_index].sender }}</p>
+                  <button type="button" ng-click="modal.show()" class="button btn_warna_utama button-small" >Pilih Alamat Lain</button>
+                </div>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Ekspedisi</span>
+                <select ng-model="postData.ekspedisi" ng-change="getTarif(postData.ekspedisi)">
+                  <option value="">Pilih Ekspedisi</option>
+                  <option ng-repeat="data in ekspedisi" value="{{ data.code }}">
+                    {{ data.code | uppercase }}
+                  </option>
+                  <option value="Non Tarif" ng-if="nonTarif">Non Tarif</option>
+                </select>
+              </label>
+              <label class="item item-input" ng-if="postData.ekspedisi === 'Non Tarif'">
+                <span class="input-label">No. Resi</span>
+                <input type="text" placeholder="No. Resi" ng-model="postData.resi">
+              </label>
+              <label class="item item-input item-select" ng-if="postData.ekspedisi !== 'Non Tarif'">
+                <span class="input-label">Tarif</span>
+                <select ng-model="postData.tarif" ng-change="setOngkir(postData.tarif)">
+                  <option value="">Pilih Tarif</option>
+                  <option ng-repeat="data in listTarif" value="{{data.cost[0].value}}#{{data.service}}">{{ data.service }} - {{ rupiah(data.cost[0].value) }}</option>
+                </select>
+              </label>
+              <div style="margin: 10px 0" ng-if="point_reward_status === 'on'">
+                <ion-checkbox ng-click="usePointChange()">Gunakan Point</ion-checkbox>
+                <label class="item item-input" ng-if="postData.usePoint">
+                  <input type="number" id="point" max="{{ customer_point }}" ng-change="pointChanged(postData.point)" ng-model="postData.point" placeholder="0">
+                </label>
+                <small>Point Anda {{ customer_point }} Point</small>
+              </div>
+              <div class="col col-100 pesanan_summary">
+                <label class="pesanan_text">Subtotal : Rp.{{total_amount}}</label>
+                <label class="pesanan_text" ng-if="postData.usePoint">Potongan Point : Rp.{{potongan_point}} (1 Point = Rp. {{ kurs_point }})</label>
+                <label class="pesanan_text">Ongkir : Rp.{{ongkir}}</label>
+                <label class="pesanan_text">Total : Rp.{{total_all}}</label>
+                <label class="pesanan_text">Total QTY : {{total_qty}} pcs ({{total_weight}} Kg)</label>
+              </div>
+              <button class="button button-full btn_warna_utama">
+                Kirim
+              </button>
+            </div>
+          </form>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="templates/modal-list-address.html" type="text/ng-template">
+      <div class="modal">
+      <header class="bar bar-header warna_utama">
+        <h1 class="title putih">Alamat Pengiriman</h1>
+        <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+      </header>
+      <ion-content class="has-header" padding="true">
+        <div class="row">
+          <div class="col col-100">
+            <button type="button" ng-click="toAddAddress()" class="button btn_warna_utama button-block" >Tambah Alamat</button>
+          </div>
+        </div>
+        <div class="list">
+          <ion-radio ng-click="selectAddress($index)" ng-model="address_index" ng-value="$index" ng-repeat="address in addresses">
+            <p>Penerima: {{ address.recipient_name + ' - ' + address.recipient_phone }}</p>
+            <p>{{ address.address }}</p>
+            <p>{{ address.subdistrict_name + ' - ' + address.type + ' '  + address.city_name }}</p>
+            <p>{{ address.province }}</p>
+            <p>{{ 'Kode POS ' + address.postal_code }}</p>
+            <p>{{ 'Pengirim ' + address.sender }}</p>
+          </ion-radio>
+        </div>
+      </ion-content>
+    </script>
+
+    <!-- KIRIM ALAMAT LAIN -->
+    <script id="templates/dropship2.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="kirimAlamatLainController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Dropship</h2>
+        </div>
+        <ion-content>
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <img class="img_center" src="img/logo.png" style="width:100%;margin:8px 0px;">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_nama">
+              {{customer_name}} (Cust ID : {{customer_id}})
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col col-100 pesanan_summary">
+              <ul class="list">
+                <li class="item" ng-repeat="item in checkedOrder">
+                  <label class="label_list_pesanan">{{item.name}} - {{item.variant}} - ({{item.qty}})</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <form ng-submit="process_dropship1()">
+            <div class="list list-inset" style="margin-top: 0px;">
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Dari</span>
+                <input type="text" placeholder="Dari" ng-model="postData.dari">
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Kepada</span>
+                <input type="text" placeholder="Kepada" ng-model="postData.kepada">
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Alamat</span>
+                <textarea ng-model="postData.alamat" placeholder="Alamat"></textarea>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Provinsi</span>
+                <select ng-model="postData.provinsi" ng-change="getKota(postData.provinsi)" id="provinsi">
+                  <option value="">-Pilih Provinsi-</option>
+                  <option ng-repeat="data in list_provinsi" value="{{data.province_id}}">{{data.province}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Kota</span>
+                <select ng-model="postData.kota" ng-change="getKecamatan(postData.kota)" id="kota">
+                  <option value="">-Pilih Kota-</option>
+                  <option ng-repeat="data in list_kota" value="{{data.city_id}}">{{data.city_name}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Kecamatan</span>
+                <select ng-model="postData.kecamatan" ng-change="getTarif(postData.ekspedisi)" id="kecamatan">
+                  <option value="">-Pilih Kecamatan-</option>
+                  <option ng-repeat="data in list_kecamatan" value="{{data.subdistrict_id}}">{{data.subdistrict_name}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Ekspedisi</span>
+                <select ng-model="postData.ekspedisi" ng-change="getTarif(postData.ekspedisi)">
+                  <option value="">-Pilih Ekspedisi-</option>
+                  <option ng-repeat="data in arr_ekspedisi" value="{{data.code}}">{{data.code | uppercase}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <span class="input-label">Tarif</span>
+                <select ng-model="postData.tarif" ng-change="setOngkir(postData.tarif)">
+                  <option value="" selected="true">-Pilih Tarif-</option>
+                  <option ng-repeat="data in listTarif" value="{{data.cost[0].value}}#{{data.service}}">{{data.service}} - {{data.cost[0].value}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Kodepos</span>
+                <input type="text" placeholder="Kode Pos" data-ng-model="postData.kodepos">
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Telepon Penerima</span>
+                <input type="text" placeholder="Telepon" data-ng-model="postData.telepon">
+              </label>
+              <div class="col col-100 pesanan_summary">
+                <label class="pesanan_text">Subtotal : Rp.{{total_amount}}</label>
+                <label class="pesanan_text">Ongkir : Rp.{{ongkir}}</label>
+                <label class="pesanan_text">Total : Rp.{{total_all}}</label>
+                <label class="pesanan_text">Total QTY : {{total_qty}} pcs ({{total_weight}} Kg)</label>
+              </div>
+              <button class="button button-full btn_warna_utama">
+                Kirim
+              </button>
+            </div>
+          </form>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- Modal Konfirmasi Dropship -->
+    <script id="templates/modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header warna_utama">
+          <h1 class="title font-color-utama">Konfirmasi Dropship</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Batal</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+            <label class="item item-input">
+              <span class="input-label">Pengirim</span>
+              <span>{{ data.dari }}</span>
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Penerima</span>
+              <span>{{ data.kepada }}</span>
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Alamat Penerima</span>
+              <textarea ng-model="data.alamat" msd-elastic class="textarea-auto" readonly></textarea>
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Provinsi</span>
+              <span>{{ data.provinsi }}</span>
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Kota</span>
+              <span>{{ data.kota }}</span>
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Kecamatan</span>
+              <span>{{ data.kecamatan }}</span>
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Ekspedisi</span>
+              <span>{{ data.ekspedisi | uppercase }} - {{ data.tarif_tipe }}</span>
+            </label>
+            <label class="item item-input" ng-if="data.kodepos">
+              <span class="input-label">Kode POS</span>
+              <span>{{ data.kodepos }}</span>
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Telepon Penerima</span>
+              <span>{{ data.telepon }}</span>
+            </label>
+            <button class="button button-full warna_utama" ng-click="submitDropship()">Kirim</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+
+    <!--  DATA PESANAN-->
+    <script id="templates/datapesanan.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="datapesananController">
+        <div class="bar bar-subheader">
+          <h2 class="title">Data Pesanan</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <button class="button button-full btn_warna_utama" ng-click="listPesanan('Unpaid')">
+                Pesanan (Belum Lunas)
+              </button>
+              <button class="button button-full btn_warna_utama" ng-click="listPesanan('Paid')">
+                Pesanan (Lunas)
+              </button>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  LIST DATA PESANAN-->
+    <script id="templates/listdatapesanan.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="listdatapesananController">
+        <div class="bar bar-subheader header_background">
+          <h2 class="title">My Booking</h2>
+        </div>
+        <ion-content>
+          <div class="row kolom_footer3 my-booking">
+            <div class="col sub_kolom_footer">
+              <a ng-click="setJenisPesanan('Unpaid')"  class="button button-full" ng-class="status_pesanan == 'Unpaid' ? 'btn_pesanan_sekunder' : 'btn_pesanan_utama'">
+                Belum Lunas
+              </a>
+            </div>
+            <div class="col sub_kolom_footer">
+              <a ng-click="setJenisPesanan('Paid')"  class="button button-full"  ng-class="status_pesanan == 'Paid' ? 'btn_pesanan_sekunder' : 'btn_pesanan_utama'">
+                Lunas
+              </a>
+            </div>
+            <div class="col sub_kolom_footer">
+              <a ng-click="setJenisPesanan('Canceled')"  class="button button-full"  ng-class="status_pesanan == 'Canceled' ? 'btn_pesanan_sekunder' : 'btn_pesanan_utama'">
+                Canceled
+              </a>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 30px">
+            <div class="col col-67">
+              <form class="list list-inset" style="margin-top: 0px" ng-submit="searchOrder(data.keyword)">
+                <label class="item item-input padding-right">
+                  <input type="text" ng-model="data.keyword" placeholder="Search">
+                  <i class="icon ion-search placeholder-icon"></i>
+                </label>
+              </form>
+            </div>
+            <div class="col col-33">
+              <label>Records: {{ order_total }} Transaksi</label>
+            </div>
+          </div>
+          <ul class="list" ng-if="status_pesanan != 'Canceled'">
+            <li class="item header-mybooking">
+              <div class="row">
+                <div class="col col-25 text-center">
+                  <p>Date</p>
+                </div>
+                <div class="col col-25 text-center">
+                  <p>Transaksi</p>
+                </div>
+                <div class="col col-25 text-center">
+                  <p>Status</p>
+                </div>
+                <div class="col col-25 text-center">
+                  <p>Note</p>
+                </div>
+              </div>
+            </li>
+            <li class="item" ng-repeat="pesanan in data_pesanan" ng-click="detailPesanan(pesanan.order_id, pesanan.order_status)" style="padding: 0px; white-space: normal;">
+              <div class="row">
+                <div class="col col-25">
+                  <p>{{ pesanan.order_date }}</p>
+                  <p>{{ pesanan.order_time }}</p>
+                </div>
+                <div class="col col-25">
+                  <p><b>#{{ pesanan.order_id }}</b></p>
+                  <p><b>{{ pesanan.total }}</b></p>
+                </div>
+                <div class="col col-25">
+                  <p>{{ pesanan.order_status == 'Keep' ? 'Rekap / COD' : (pesanan.order_status === 'Piutang' ? 'Piutang' : 'Dropship') }}</p>
+                  <p><b>{{ pesanan.payment }}</b></p>
+                </div>
+                <div class="col col-25 item-text-wrap" ng-bind-html="pesanan.notes">
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="list" ng-if="status_pesanan == 'Canceled'">
+            <li class="item header-mybooking">
+              <div class="row">
+                <div class="col col-25 text-center">
+                  <p>Date</p>
+                </div>
+                <div class="col col-25 text-center">
+                  <p>Produk</p>
+                </div>
+                <div class="col col-25 text-center">
+                  <p>Qty</p>
+                </div>
+                <div class="col col-25 text-center">
+                  <p>Harga</p>
+                </div>
+              </div>
+            </li>
+            <li class="item" ng-repeat="pesanan in data_pesanan" ng-click="detailPesanan(pesanan.order_id, pesanan.order_status)" style="padding: 0px">
+              <div class="row">
+                <div class="col col-25">
+                  <p>{{ pesanan.order_date }}</p>
+                  <p>{{ pesanan.order_time }}</p>
+                </div>
+                <div class="col col-25 item-text-wrap">
+                  <p>{{ pesanan.product }}</p>
+                  <p>{{ pesanan.variant }}</p>
+                </div>
+                <div class="col col-25 text-center">
+                  <p>{{ pesanan.qty }}</p>
+                </div>
+                <div class="col col-25">
+                  <p>{{ pesanan.price }}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ion-infinite-scroll ng-if="moredata" on-infinite="loadMoreData()" immediate-check="false" distance="1%"></ion-infinite-scroll>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  LIST DATA DETAIL PESANAN-->
+    <script id="templates/listdatadetailpesanan.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="listdatadetailpesananController">
+        <div class="bar bar-subheader">
+          <h2 class="title">Pesanan #{{order_id}}</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <img class="img_center" src="img/logo.png" style="width:100%;margin:8px 0px;">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100 pesanan_nama">
+              {{customer_name}} (Cust ID : {{customer_id}})
+            </div>
+          </div>
+          <div class="row" ng-if="order_id">
+            <div class="col col-100">
+              <h4 class="title_data"> Data Pesanan </h4>
+              <div class="list_data"> ID Pesanan : {{order_id}} </div>
+              <div class="list_data"> Tanggal Order : {{order_datetime}} </div>
+              <div class="list_data"> Jenis Order : {{order_status}} </div>
+              <div class="list_data"> Status Pembayaran : {{order_payment}} </div>
+              <div class="divide">  </div>
+              <div ng-if="shipping_from">
+                <h4 class="title_data"> Data Pengiriman </h4>
+                <div class="list_data"> Dari : {{shipping_from}} </div>
+                <div class="list_data"> Dikirim ke : {{shipping_to}} </div>
+                <div class="list_data"> Alamat : {{address_recipient}} </div>
+                <div class="list_data"> Provinsi : {{provinsi}} </div>
+                <div class="list_data"> Kota : {{kota}} </div>
+                <div class="list_data"> Kecamatan : {{kecamatan}} </div>
+                <div class="list_data"> Status : {{shipping_status}}</div>
+                <div class="list_data"> Ekspedisi : {{ekspedisi}} </div>
+                <div class="list_data"> Resi : {{resi}} </div>
+                <div class="divide">  </div>
+              </div>
+              <h4 class="title_data"> Item Pesanan </h4>
+              <div class="list_data" ng-repeat="data in list_order"> - {{data.name_item}} | {{data.variant_name}} : {{data.subtotal | currency:"Rp.":0}} </div>
+              <div class="list_data" ng-if="shipping_from"> Ongkos Pengiriman {{shipping_fee | currency:"Rp.":0}} </div>
+              <div class="list_data" ng-if="diskon > 0"> Diskon {{diskon | currency:"Rp.":0}} </div>
+              <div class="list_data" ng-if="program_diskon > 0"> Program Diskon {{program_diskon | currency:"Rp.":0}} </div>
+              <div class="list_data" ng-if="diskon_point > 0"> Diskon Point {{diskon_point | currency:"Rp.":0}} </div>
+              <div class="divide">  </div>
+              <h4 class="title_data right"> Total : {{total | currency:"Rp.":0}} </h4>
+              <button ng-click="konfirmasipembayaran(order_id)" class="button warna_utama button-block" ng-if="order_payment == 'Unpaid'">Konfirmasi Pembayaran</button>
+              <button ng-click="orderStatus(order_id)" class="button warna_utama button-block" ng-if="order_type == 'Dropship'">Status Pengiriman</button>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  KONFIRMASI PEMBAYARAN-->
+    <script id="templates/konfirmasipembayaran.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="konfirmasipembayaranController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Konfirmasi Pembayaran</h2>
+        </div>
+        <ion-content padding="true" overflow-scroll="true">
+          <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+          </ion-refresher>
+          <br><br>
+          <form ng-submit="confirm_payment()">
+            <div class="row">
+              <div class="col col-100 pesanan_nama">
+                {{customer_name}} (Cust ID : {{customer_id}} )
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <br>
+                <label class="item item-input item-select">
+                  <div class="input-label">
+                    ID Pesanan
+                  </div>
+                  <select ng-model="postData.list_order" ng-change="setOrderId(postData.list_order)">
+                    <option value="">Pilih Pesananan</option>
+                    <option ng-repeat="data in data_order_unpaid" value="{{ data.order_id }}" ng-selected="data.order_id == order_id" ng-if="data.order_id == order_id || other_order_id != true">#{{data.order_id}} - {{ rupiah(data.total) }}</option>
+                  </select>
+                  <input type="hidden" ng-model="postData.order_id">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Nama
+                </div>
+                <label class="item item-input">
+                  <input type="text" placeholder="Nama" ng-model="postData.nama" ng-init="postData.nama = ''">
+                </label>
+              </div>
+            </div>
+            <div class="row" style="padding-top: 7px">
+              <div class="col col-100">
+                <label class="item item-input item-select">
+                  <span class="input-label">Bank Tujuan</span>
+                  <select ng-model="postData.bank_account">
+                    <option value="">Pilih Bank Tujuan</option>
+                    <option ng-repeat="bank in bank_accounts" value="{{ bank.id }}">
+                      {{ bank.nama_bank + ' - ' + bank.nomor_rekening + ' a.n ' + bank.nama_rekening }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Transfer Via Bank
+                </div>
+                <label class="item item-input">
+                  <input type="text" placeholder="Bank Pengirim" ng-model="postData.transfer_via" ng-init="postData.transfer_via = ''">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  No Rekening / Atas Nama
+                </div>
+                <label class="item item-input">
+                  <input type="text" placeholder="No Rekening / Atas Nama" ng-model="postData.atas_nama" ng-init="postData.atas_nama = ''">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Jumlah Transfer
+                </div>
+                <label class="item item-input">
+                  <input type="number" id="jumlah_transfer" placeholder="Jumlah Transfer" ng-model="postData.jumlah_transfer" ng-init="postData.jumlah_transfer = ''">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Upload Foto
+                </div>
+                <button ng-click="loadImage()" type="button" class="button button-block icon ion-images"></button>
+
+              </div>
+            </div>
+            <div class="row" ng-if="image">
+              <div class="col col-100">
+                <img ng-src="{{ image }}" style="width: 100%; height: 100%;">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <button class="button button-full btn_warna_utama">
+                  Kirim
+                </button>
+              </div>
+            </div>
+          </form>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  PESAN MASUK -->
+    <script id="templates/kotakmasuk.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="pesanmasukController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Kotak Masuk</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <div class="list">
+                <a class="item item-avatar" ng-repeat="data in data_message" ng-click="detailMessage(data.id)">
+                  <img ng-src="{{ data.status == 'Unread' ? 'img/message.png' : 'img/message-open.png' }}" style="border-radius: 0px !important">
+                  <h2>{{ data.subject }}</h2>
+                  <p ng-bind-html="message(data.content)"></p>
+                </a>
+              </div>
+            </div>
+          </div>
+          <ion-infinite-scroll ng-if="moredata" on-infinite="loadMoreData()" immediate-check="false" distance="1%"></ion-infinite-scroll>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  DETAIL PESAN MASUK -->
+    <script id="templates/pesanmasukdetail.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="pesanmasukdetailController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Kotak Masuk</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <h2>{{ message_subject }}</h2>
+              <img ng-if="image" ng-src="{{ image }}" style="width: 100%">
+              <textarea msd-elastic ng-model="message_content" readonly class="textarea-auto">
+              </textarea>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- INFO & REKENING -->
+    <script id="templates/inforekening.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="inforekeningController">
+        <div class="bar bar-subheader">
+          <h2 class="title">Info & Rekening</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row" ng-show="isLogin">
+            <div class="col col-100 pesanan_nama">
+              {{customer_name}} (Cust ID : {{customer_id}} )
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100">
+              <div class="input-label">
+                Info
+              </div>
+              <label class="item item-input">
+                <textarea class="textarea-auto col-90" id="keterangan" readonly msd-elastic ng-model="info" ></textarea>
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100">
+              <div class="input-label">
+                Kontak
+              </div>
+              <label class="item item-input">
+                <textarea class="textarea-auto col-90" id="keterangan" readonly msd-elastic ng-model="kontak" ></textarea>
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100">
+              <div class="input-label">
+                Rekening
+              </div>
+              <label class="item item-input">
+                <textarea class="textarea-auto col-90" id="keterangan" readonly msd-elastic ng-model="rekening" ></textarea>
+              </label>
+            </div>
+          </div>
+          <div class="row" ng-if="no_wa">
+            <div class="col col-100">
+              <div class="input-label">
+                Whatsapp
+              </div>
+              <label>
+                <button type="button" class="button button-block button-balanced ion-social-whatsapp-outline" ng-click="toWhatsapp()" style="font-size: 24px"> {{ '0' + no_wa }}</button>
+              </label>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  Pengaturan -->
+    <script id="templates/pengaturan.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="pengaturanController">
+        <ion-content padding="true">
+          <div class="profile-wrapper">
+            <img src="icons/user-circle.svg">
+            <h4>{{ customer_name }} (Cust ID : {{ customer_id }})</h4>
+            <h4 ng-if="phone">{{ phone + ' - ' + email }}</h4>
+            <h5 ng-if="point">{{ point }} Points</h5>
+          </div>
+          <div class="list profile">
+            <a class="item" href="#/event/editprofil">
+              <img src="icons/user-cog.svg">
+              Ubah Profil
+            </a>
+            <a class="item" href="#/event/address">
+              <img src="icons/address-book.svg">
+              Daftar Alamat
+            </a>
+            <a class="item" href="#/event/order-status">
+              <img src="icons/shipping-fast.svg">
+              Status Pengiriman
+            </a>
+            <a class="item" href="#/event/cekongkir">
+              <img src="icons/weight.svg">
+              Cek Ongkir
+            </a>
+            <a class="item" href="#/event/inforekening">
+              <img src="icons/info-circle.svg">
+              Informasi Toko
+            </a>
+            <a class="item" href="#/event/cara_order">
+              <img src="icons/question-circle.svg">
+              Tutorial Order
+            </a>
+          </div>
+          <button style="margin-bottom: 20px" class="button button-full btn-round btn_warna_utama" ng-click="logout()">
+            Logout
+          </button>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- CHATTING -->
+    <script id="templates/chatting.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="chattingController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Customer Service Support</h2>
+          <i ng-click="toWhatsapp()" class="icon ion-social-whatsapp" style="position: absolute; font-size: 25px; color: #33cd5f; top: 8px; right: 15px"></i>
+        </div>
+        <ion-content padding="true" overflow-scroll="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <ul class="list_tiket">
+                <li ng-class="row.sender == 'Admin' ? 'ballon_admin' : 'ballon_customer'" ng-repeat="row in tiket">
+                  <img ng-click="showFull(row.image)" ng-src="{{ row.image }}" ng-if="row.image" style="width: 100%">
+                  {{ row.pesan }}
+                  <span class="detail_tiket">{{ row.sender }} | {{ row.tanggal }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ion-content>
+        <ion-footer-bar keyboard-attach class="bar-stable item-input-inset" style="margin-bottom: 10px">
+          <label class="item-input-wrapper">
+            <input type="text" placeholder="Ketik pesan anda" on-return="sendMessage(); closeKeyboard()" ng-model="data.message" on-focus="inputUp()" on-blur="inputDown()" />
+          </label>
+          <a ng-click="loadImage()" class="button button-icon icon ion-images" style="margin-left: 0px !important;background-color: transparent !important; color: #444 !important"></a>
+          <button class="button btn-send" id="button" ng-click="sendMessage()">
+            Send
+          </button>
+        </ion-footer-bar>
+      </ion-view>
+    </script>
+
+    <!-- LIST CHAT PRODUCT -->
+    <script id="templates/listChatProduct.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="listChatProductController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Chat Product</h2>
+        </div>
+        <ion-content>
+          <div class="list has-header">
+            <a class="item item-avatar" ng-repeat="data in list_chat_product" ng-click="detailChat(data.prod_id)">
+              <img ng-src="{{ data.img }}">
+              <span style="font-size: 80%" class="item-note">{{ data.create_at }}</span>
+              <h2>{{ data.product_name }}</h2>
+              <p>{{ data.content }}</p>
+            </a>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- CHAT PRODUCT -->
+    <script id="templates/chatProduct.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="chatProductController" cache-view="false" class="chat-product">
+        <div class="bar bar-subheader">
+          <!-- <h2 class="title">Customer Service Support</h2> -->
+          <div class="list" ng-click="detailbarang()">
+            <a class="item item-avatar" href="#">
+              <img ng-src="{{ product.img }}">
+              <h2>{{ product.product_name }}</h2>
+              <p>{{ product.price }}</p>
+            </a>
+          </div>
+        </div>
+        <ion-content padding="true" overflow-scroll="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <ul class="list_tiket">
+                <li ng-class="row.sender == 'Admin' ? 'ballon_admin' : 'ballon_customer'" ng-repeat="row in chat">
+                  {{ row.content }}
+                  <span class="detail_tiket">{{ row.sender }} | {{ row.create_at }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ion-content>
+        <ion-footer-bar keyboard-attach class="bar-stable item-input-inset" style="margin-bottom: 10px">
+          <label class="item-input-wrapper">
+            <input type="text" placeholder="Ketik pesan anda" on-return="sendMessage(); closeKeyboard()" ng-model="data.message" on-focus="inputUp()" on-blur="inputDown()" />
+          </label>
+          <button class="button" id="button" ng-click="sendMessage()">
+            Send
+          </button>
+        </ion-footer-bar>
+      </ion-view>
+    </script>
+
+    <!--  EDIT PROFILE -->
+    <script id="templates/editprofil.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="editprofilController">
+        <div class="bar bar-subheader header_background">
+          <h2 class="title">Edit Profil</h2>
+        </div>
+        <ion-content padding="true">
+          <form ng-submit="submit_edit_profile()">
+            <br><br>
+
+            <div class="row">
+              <div class="col col-100 pesanan_nama">
+                {{customer_name}} (Cust ID : {{customer_id}} ) <!-- | {{tipe_customer}} -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Nama
+                </div>
+                <label class="item item-input">
+                  <input type="text" ng-value="{{name}}" value="{{name}}" ng-model="postData.nama">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Email
+                </div>
+                <label class="item item-input">
+                  <input type="text" ng-value="{{email}}" value="{{email}}" ng-model="postData.email">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Handphone
+                </div>
+                <label class="item item-input">
+                  <input type="text" ng-value="{{phone}}" value="{{phone}}" ng-model="postData.phone">
+                </label>
+              </div>
+            </div>
+            <hr>
+            <small>*Kosongkan Jika Tidak Merubah Password</small>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Password
+                </div>
+                <label class="item item-input">
+                  <input type="password" ng-model="postData.password">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Konfirmasi Password
+                </div>
+                <label class="item item-input">
+                  <input type="password" ng-model="postData.confirm_password">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <div class="input-label">
+                  Pengaturan Notifikasi
+                </div>
+                <ion-list>
+                  <ion-checkbox ng-model="notif.confirm">Konfirmasi</ion-checkbox>
+                  <ion-checkbox ng-model="notif.order_status">Status Pesanan</ion-checkbox>
+                  <ion-checkbox ng-model="notif.resi">Resi</ion-checkbox>
+                </ion-list>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <button class="button button-full btn_warna_utama">
+                  Update Profil
+                </button>
+              </div>
+            </div>
+          </form>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- CEK ONGKIR -->
+    <script id="templates/cekongkir.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="cekongkirController">
+        <div class="bar bar-subheader header_background">
+          <h2 class="title">Cek Ongkir</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <form ng-submit="cekongkir()">
+
+            <div class="row">
+              <div class="col col-100">
+                <label>Kota Asal</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <ionic-autocomplete autocomplete-input="autocompleteKotaDari"></ionic-autocomplete>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col col-100">
+                <label>Kota Tujuan</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <ionic-autocomplete autocomplete-input="autocompleteKotaKe"></ionic-autocomplete>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col col-100">
+                <label class="item item-input">
+                  <input type="number" placeholder="Berat (satuan gram)" ng-model="postData.berat">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <button class="button button-full btn_warna_utama">
+                  Cek Ongkir
+                </button>
+                <a href="javascript:;" ng-click="reset()" class="button button-full btn_warna_utama">
+                  Reset
+                </a>
+              </div>
+            </div>
+          </form>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- DETAIL CEK ONGKIR -->
+    <script id="templates/cekongkirdetail.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="cekongkirdetailController">
+        <div class="bar bar-subheader">
+          <h2 class="title">Ongkir Detail</h2>
+        </div>
+        <ion-content>
+          <br><br>
+          <div class="item item-button-right desc_ongkir_detail">
+            Kota Asal : {{kota_asal_name}}<br>
+            Kota Tujuan : {{kota_tujuan_name}}<br>
+            Berat : {{berat}} Gram<br>
+          </div>
+          <div class="row" style="width:100%;" ng-repeat="(key, value) in data_ongkir | groupBy:'name'">
+            <ion-list style="width:100%;float:left">
+              <div class="item item-divider">
+                <h3> {{key}}</h3>
+              </div>
+              <a class="" ng-repeat="c in value" href="#">
+                <span class="list_ongkir" ng-repeat="x in c.costs" ng-if="x.service !== 'Paketpos Biasa'">
+                  {{x.service}}
+                  <span class="item-note" ng-repeat="v in x.cost">
+                    {{rupiah(v.value)}}
+                  </span>
+                </span>
+              </a>
+            </ion-list>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- FAQ -->
+    <script id="templates/faq.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="faqController">
+        <div class="bar bar-subheader">
+          <h2 class="title"><center><h4>FAQ</h4></center></h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100">
+              <div ng-bind-html="faq">
+              </div>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- CARA ORDER -->
+    <script id="templates/cara_order_detail.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="caraOrderDetailController">
+        <div class="bar bar-subheader">
+          <h2 class="title"><center><h4>Tutorial Order</h4></center></h2>
+        </div>
+        <ion-content class="has-subheader">
+          <div class="row">
+            <div class="col col-100">
+              <h2>{{ title }}</h2>
+              <div ng-bind-html="content"></div>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+     <!-- CARA ORDER -->
+     <script id="templates/cara_order.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="caraOrderController">
+        <div class="bar bar-subheader">
+          <h2 class="title"><center><h4>Tutorial Order</h4></center></h2>
+        </div>
+        <ion-content class="has-subheader">
+          <ul class="list">
+              <li ng-click="toDetail(item)" class="item item-icon-right" ng-repeat="item in cara_order">
+                {{ item.title }}
+                <i class="icon ion-ios-arrow-forward"></i>
+              </li>
+          </ul>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  Update -->
+    <script id="templates/update.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="updateController">
+        <div class="bar bar-subheader">
+          <h2 class="title">Update Aplikasi</h2>
+        </div>
+        <ion-content padding="true">
+          <br><br>
+          <div class="row">
+            <div class="col col-100 pesanan_nama">
+              Update aplikasi anda dengan versi terbaru degan klik button dibawah ini
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-100">
+              <button class="button button-full btn_warna_utama" ng-click="editProfil()">
+                Download
+              </button>
+            </div>
+          </div>
+
+
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!--  KATALOG ALL -->
+    <script id="templates/kategori.html" type="text/ng-template">
+      <ion-view view-title="" cache-view="true">
+        <ion-content class="bg_abuabu">
+          <ul class="list">
+            <a href="{{item.target}}" class="item" menu-close ng-repeat="item in sidemenu" ng-click="{{item.click}}">
+              <i class="{{item.icon}}"></i>
+              {{item.name}}<span class="badge warna_utama" ng-show="{{item.badge}}">{{total_chat}}</span></a>
+            </ul>
+            <div>
+              <ion-infinite-scroll class="load_more_data"
+              on-infinite="loadMoreData()"
+              immediate-check="false"
+              distance="1%">
+            </ion-infinite-scroll>
+          </div>
+        </ion-content>
+        <!--<ion-footer-bar>
+          <button class="button button-full warna_utama" ng-click="loadMoreData()">
+            Full Width Block Button
+          </button>
+        </ion-footer-bar>-->
+      </ion-view>
+    </script>
+
+    <!--  Notifikasi -->
+    <script id="templates/notifikasi.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="notifikasiController">
+        <div class="bar bar-header warna_utama">
+          <h1 class="title">{{shop_name}}</h1>
+        </div>
+        <ion-content>
+          <div class="bar bar-subheader">
+            <h2 class="title">Notifikasi</h2>
+          </div>
+          <div class="row">
+            <br><br><br><br><br><br><br><br><br>
+          </div>
+          <div class="row">
+            <div class="col col-100">
+              <p align="center" class="message_notif">{{message}}</p>
+            </div>
+          </div>
+        </ion-content>
+        <div class="bar bar-footer warna_utama footer">
+          <div style="text-align:center;width:100%;">
+            Powered By © {{shop_name}}
+          </div>
+        </div>
+      </ion-view>
+    </script>
+
+    <script id="templates/modalImage.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar warna_utama" align-title="center">
+          <div class="buttons">
+            <button ng-click="closeModal()" class="button putih button-icon icon ion-reply"></button>
+          </div>
+          <h1 class="title putih">Kirim Gambar</h1>
+        </ion-header-bar>
+        <ion-content>
+          <img ng-if="!multipleImage" style="width:100%" ng-src="{{ imageChat }}">
+          <div ng-if="multipleImage">
+            <div class="row">
+              <div class="col col-100">
+                <ion-slide-box show-pager="false" disable-scroll="false" on-slide-changed="onSlideChanged(index)" active-slide="currentIndex" disable-scroll="false">
+                  <ion-slide ng-repeat="image in list_image">
+                    <div class="" ng-class="{'slide_box': slideboxStyle === true}" ng-click="">
+                      <img class="full-image" style="" image-lazy-loader="android" ng-src="{{ image }}" onerror="this.src='img/logo.png'"/>
+                    </div>
+                  </ion-slide>
+                </ion-slide-box>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="thumb_image_container">
+                <div class="thumb_div" ng-repeat="image in list_image" ng-click="changeSlider($index)"><img class="thumb_img" ng-src="{{ image }}" onerror="this.src='img/logo.png'"/></div>
+              </div>
+            </div>
+          </div>
+        </ion-content>
+        <ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
+          <label class="item-input-wrapper">
+            <input type="text" ng-init="" placeholder="Ketik pesan anda" on-return="sendImageMessage(); closeKeyboard()" ng-model="message" on-focus="inputUp()" on-blur="inputDown()">
+          </label>
+          <button class="button" ng-click="sendImageMessage(message)">Send</button>
+        </ion-footer-bar>
+      </ion-modal-view>
+    </script>
+
+    <script id="templates/fotoProduct.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar style="background-color: #000; background-image: none">
+          <div class="buttons">
+            <button type="button" style="color: #fff !important" ng-click="modal.hide()" class="button button-icon icon ion-reply"></button>
+          </div>
+        </ion-header-bar>
+        <ion-content scroll="false" style="top: 0; background-color: #000;justify-content: center; display: flex; flex-direction: column;">
+          <img src="{{ image }}" style="width: 100%">
+        </ion-content>
+      </ion-modal-view>
+    </script>
+
+    <!-- ADDRESSES -->
+    <script id="templates/address.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="addressController" cache-view="false">
+        <div class="bar bar-subheader">
+          <h2 class="title">Daftar Alamat</h2>
+        </div>
+        <ion-content class="has-subheader">
+          <ul class="list">
+            <li class="item address" ng-repeat="address in addresses">
+              <i class="icon ion-android-create edit" ng-click="edit(address.id)"></i>
+              <i class="icon ion-android-delete delete" ng-click="delete(address.id, $index)"></i>
+              <i class="icon ion-ios-copy-outline copy" ng-click="copy($index)"></i>
+              <p>Penerima: {{ address.recipient_name + ' - ' + address.recipient_phone }}</p>
+              <p>{{ address.address }}</p>
+              <p>{{ address.subdistrict_name + ' - ' + address.type + ' '  + address.city_name }}</p>
+              <p>{{ address.province }}</p>
+              <p>{{ 'Kode POS ' + address.postal_code }}</p>
+              <p>{{ 'Pengirim ' + address.sender }}</p>
+            </li>
+          </ul>
+          <div class="row padding" ng-if="addresses.length < 10">
+            <div class="col col-90">
+              <h4>Tambah alamat baru</h4>
+            </div>
+            <div class="col col-10">
+              <h2>
+                <a href="#/event/add-address" class="icon ion-android-add" style="color: #444"></a>
+              </h2>
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- ADD ADDRESS -->
+    <script id="templates/add-address.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="addAddressController">
+        <div class="bar bar-subheader">
+          <h2 class="title">Alamat Baru</h2>
+        </div>
+        <ion-content class="has-subheader">
+          <form ng-submit="save()">
+            <div class="list">
+              <label class="item item-input">
+                <span class="input-label">Penerima</span>
+                <input type="text" placeholder="Nama Penerima" ng-model="postData.recipient_name">
+              </label>
+              <label class="item item-input">
+                <span class="input-label">No. Telepon</span>
+                <input type="tel" placeholder="No. Telepon"  ng-model="postData.recipient_phone">
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Alamat</span>
+                <textarea placeholder="Alamat Lengkap" ng-model="postData.address"></textarea>
+              </label>
+              <label class="item item-input item-select">
+                <div class="input-label">Provinsi</div>
+                <select ng-model="postData.province_id" ng-change="getCity(postData.province_id)">
+                  <option value="">Provinsi</option>
+                  <option ng-selected="province.province_id == postData.province_id" ng-repeat="province in provinces" value="{{ province.province_id }}">
+                    {{ province.province }}
+                  </option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <div class="input-label">Kota / Kabupaten</div>
+                <select ng-model="postData.city_id" ng-change="getSubdistrict(postData.city_id)">
+                  <option value="">Kota / Kabupaten</option>
+                  <option ng-selected="city.city_id == postData.city_id" ng-repeat="city in cities" value="{{ city.city_id }}">
+                    {{ city.type + ' ' + city.city_name }}
+                  </option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <div class="input-label">Kecamatan</div>
+                <select ng-model="postData.subdistrict_id">
+                  <option value="">Kecamatan</option>
+                  <option ng-selected="subdistrict.subdistrict_id == postData.subdistrict_id" ng-repeat="subdistrict in subdistricts" value="{{ subdistrict.subdistrict_id }}">
+                    {{ subdistrict.subdistrict_name }}
+                  </option>
+                </select>
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Kode POS</span>
+                <input type="number" placeholder="Kode POS" ng-model="postData.postal_code">
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Pengirim</span>
+                <input type="text" placeholder="Pengirim" ng-model="postData.sender">
+              </label>
+            </div>
+            <div class="padding-horizontal">
+              <button type="submit" class="button button-full btn-round btn_warna_utama">
+                Simpan
+              </button>
+            </div>
+          </form>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- EDIT ADDRESS -->
+    <script id="templates/edit-address.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="editAddressController">
+        <div class="bar bar-subheader">
+          <h2 class="title">Edit Alamat</h2>
+        </div>
+        <ion-content class="has-subheader">
+          <form ng-submit="save()">
+            <div class="list">
+              <label class="item item-input">
+                <span class="input-label">Penerima</span>
+                <input type="text" placeholder="Nama Penerima" ng-model="postData.recipient_name">
+              </label>
+              <label class="item item-input">
+                <span class="input-label">No. Telepon</span>
+                <input type="tel" placeholder="No. Telepon"  ng-model="postData.recipient_phone">
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Alamat</span>
+                <textarea placeholder="Alamat Lengkap" ng-model="postData.address"></textarea>
+              </label>
+              <label class="item item-input item-select">
+                <div class="input-label">Provinsi</div>
+                <select ng-model="postData.province_id" ng-change="getCity(postData.province_id)">
+                  <option value="">Provinsi</option>
+                  <option ng-selected="postData.province_id === province.province_id" ng-repeat="province in provinces" value="{{ province.province_id }}">
+                    {{ province.province }}
+                  </option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <div class="input-label">Kota / Kabupaten</div>
+                <select ng-model="postData.city_id" ng-change="getSubdistrict(postData.city_id)">
+                  <option value="">Kota / Kabupaten</option>
+                  <option ng-selected="postData.city_id === city.city_id" ng-repeat="city in cities" value="{{ city.city_id }}">
+                    {{ city.type + ' ' + city.city_name }}
+                  </option>
+                </select>
+              </label>
+              <label class="item item-input item-select">
+                <div class="input-label">Kecamatan</div>
+                <select ng-model="postData.subdistrict_id">
+                  <option value="">Kecamatan</option>
+                  <option ng-selected="postData.subdistrict_id === subdistrict.subdistrict_id" ng-repeat="subdistrict in subdistricts" value="{{ subdistrict.subdistrict_id }}">
+                    {{ subdistrict.subdistrict_name }}
+                  </option>
+                </select>
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Kode POS</span>
+                <input type="number" placeholder="Kode POS" ng-model="postData.postal_code">
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Pengirim</span>
+                <input type="text" placeholder="Pengirim" ng-model="postData.sender">
+              </label>
+            </div>
+            <div class="padding-horizontal">
+              <button type="submit" class="button button-full btn-round btn_warna_utama">
+                Simpan
+              </button>
+            </div>
+          </form>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="templates/list-dropship.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="listDropshipController">
+        <div class="bar bar-subheader header_background">
+          <h2 class="title">Data Pesanan</h2>
+        </div>
+        <ion-content>
+          <ul class="list has-header">
+            <li class="item header-mybooking">
+              <div class="row">
+                <div class="col col-33 text-center">
+                  <p>Date</p>
+                </div>
+                <div class="col col-33 text-center">
+                  <p>Transaksi</p>
+                </div>
+                <div class="col col-33 text-center">
+                  <p>Status</p>
+                </div>
+              </div>
+            </li>
+            <li class="item" ng-repeat="pesanan in data_pesanan" ng-click="detailPesanan(pesanan.id)" style="padding: 0px; white-space: normal;">
+              <div class="row">
+                <div class="col col-33">
+                  <p>{{ pesanan.order_date }}</p>
+                  <p>{{ pesanan.order_time }}</p>
+                </div>
+                <div class="col col-33">
+                  <p><b>#{{ pesanan.id }}</b></p>
+                  <p><b>{{ pesanan.total }}</b></p>
+                </div>
+                <div class="col col-33 item-text-wrap">
+                  <p>{{ pesanan.status }}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ion-infinite-scroll ng-if="moredata" on-infinite="loadMoreData()" immediate-check="false" distance="1%"></ion-infinite-scroll>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="templates/order-status.html" type="text/ng-template">
+      <ion-view view-title="" ng-controller="orderStatusController">
+        <div class="bar bar-subheader">
+          <h2 class="title">Status Pengiriman</h2>
+        </div>
+        <ion-content class="has-subheader">
+          <div class="card order-status">
+            <div class="icon-order-status" ng-click="selectOrder('Unpaid')" ng-class="{'active': shipping_status === 'Unpaid'}">
+              <img src="icons/wallet.svg">
+              <span>Belum Bayar</span>
+            </div>
+            <div class="icon-order-status" ng-click="selectOrder('Dipacking')" ng-class="{'active': shipping_status === 'Dipacking'}">
+              <img src="icons/box.svg">
+              <span>Dipacking</span>
+            </div>
+            <div class="icon-order-status" ng-click="selectOrder('Dikirim')" ng-class="{'active': shipping_status === 'Dikirim'}">
+              <img src="icons/shipping-fast.svg">
+              <span>Dikirim</span>
+            </div>
+          </div>
+          <div class="card" ng-repeat="order in data_pesanan" style="margin: 10px;">
+            <div class="header-status">
+              <div class="order-id">
+                <label>ID Pesanan</label>
+                <label>{{ order.id }}</label>
+              </div>
+              <div class="status">
+                <label>Status</label>
+                <label>{{ order.status }}</label>
+              </div>
+              <div class="arrow-order" ng-click="showOrder($index)">
+                <i class="ion-ios-arrow-down" ng-if="!order.show"></i>
+                <i class="ion-ios-arrow-up" ng-if="order.show"></i>
+              </div>
+            </div>
+            <div ng-if="order.show" class="padding margin-top row">
+              <div class="col col-50">
+                <p>Penerima : {{ order.shipping_to }}</p>
+                <p>{{ order.phone_recipient }}</p>
+                <p>{{ order.address_recipient }}</p>
+                <p>{{ order.kecamatan + ' - ' + order.kota }}</p>
+                <p>{{ order.provinsi }}</p>
+                <p>{{ 'Kode POS ' + order.postal_code }}</p>
+                <p>{{ 'Pengirim : ' + order.shipping_from }}</p>
+                <p ng-if="order.notes">{{ 'Catatan : ' + order.notes }}</p>
+              </div>
+              <div class="col col-50">
+                <div ng-if="order.status === 'Dikirim'">
+                  <p>Nomor Resi {{ order.resi }}</p>
+                  <p>{{ order.ekspedisi }}</p>
+                </div>
+                <div class="text-right">
+                  <div ng-repeat="item in order.orders_item">
+                    <p>{{ item.name_item }}</p>
+                    <p>{{ item.variant_name }} ({{ item.qty }})</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ion-infinite-scroll ng-if="moredata" on-infinite="loadMoreData()" immediate-check="false" distance="1%"></ion-infinite-scroll>
+        </ion-content>
+      </ion-view>
+    </script>
+  </body>
+</html>
